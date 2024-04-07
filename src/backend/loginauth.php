@@ -1,9 +1,9 @@
 <!-- AUTHENTICATE LOGIN -->
-
 <?php
-
+include '../dashboard.php';
 function auth_login($email, $password) {
 
+    session_start();
     //Get connection
     $dbConn = db_get_connection();
 
@@ -23,17 +23,22 @@ function auth_login($email, $password) {
 
     //Check validity!
     if ($queryResult["UserID"] == null || $queryResult["Password"] == null) {
+        header("Location: index.php?error=invalid_credentials");
         return false;
 
     }else if (!password_verify($password, $queryResult["Password"])) {
-        return false;
+        header("Location: index.php?error=invalid_credentials");
+        //return false;
     } else {
         $_SESSION["user_id"] = $queryResult["UserID"];
         $_SESSION["user_universityid"] = $queryResult["UniversityID"];
         $_SESSION["user_fullname"] = $queryResult["FullName"];
+        header("Location: dashboard.php");
+        exit;
+        
     }
 
-    return true;
+    //return true;
 }
 
 ?>
