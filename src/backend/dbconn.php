@@ -1,4 +1,5 @@
 <!-- CONNECT TO DATABASE -->
+
 <?php
 
 function db_get_connection() {
@@ -25,4 +26,5 @@ function db_get_connection() {
         throw new \PDOException($e->getMessage(), (int)$e->getCode());
     }
 }
+
 ?>
