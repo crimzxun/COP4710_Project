@@ -14,8 +14,8 @@ if (!isset($_SESSION['user_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="frontend/css/bootstrap.min.css" rel="stylesheet">
+    <link href="frontend/css/style.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
