@@ -3,6 +3,7 @@
 <?php
 
 include_once 'dbconn.php';
+include_once 'university.php';
 include_once 'user.php';
 
 function check_exists($universityId, $rsoName) {
@@ -77,13 +78,20 @@ function create_rso($universityId, $rsoName, $rsoDescription, $rsoImage, $member
     $dbConn = db_get_connection();
     $universityINT = (int)$universityId;
     // Insert the RSO
-    $stmt = $dbConn->prepare("INSERT INTO rsos (Name, Description, UniversityID, ImageURL) VALUES (:name, :rsoDescription, :rsoImage, :universityID)");
+    $stmt = $dbConn->prepare("INSERT INTO rsos (Name, Description, ImageURL, UniversityID) VALUES (:name, :rsoDescription, :rsoImage, :universityID)");
 
     $stmt->bindParam(':name', $rsoName);
     $stmt->bindParam(':rsoDescription', $rsoDescription);
     $stmt->bindParam(':rsoImage', $rsoImage);
-    $stmt->bindParam(':universityID', $universityId, PDO::PARAM_INT);
-    $stmt->execute();
+    $stmt->bindParam(':universityID', $universityINT);
+
+    if (!$stmt->execute()) {
+        // Handle the error
+        $errorInfo = $stmt->errorInfo();
+        echo "Error: " . $errorInfo[2];
+        return;
+    }
+
     $rsoID = $dbConn->lastInsertId();
 
     //CREATE ADMIN HERE:
