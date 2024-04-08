@@ -33,6 +33,26 @@ $university = get_university($uniID);
     <link href="frontend/css/style.css" rel="stylesheet">
 </head>
 <body>
+	<div class="container">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home Page</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="viewRSO.php">RSOs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link float-end" href="#">Create RSO</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link float-end" href="events.php">Events</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link float-end" href="#">Create Events</a>
+            </li>
+            <a href="logout.php" class="btn d-grid gap-2 d-md-flex justify-content-md-end">Logout</a>
+        </ul>
+    </div>
     <div class="container">
         <div class="row mt-3">
             <div class="col-md-12">
