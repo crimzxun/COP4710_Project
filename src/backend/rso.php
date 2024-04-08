@@ -20,7 +20,7 @@ function get_all_rsos($universityId) {
     $dbConn = db_get_connection();
 
     // Fetch RSOs for the user's university
-    $stmt = $dbConn->prepare('SELECT * FROM RSOs WHERE UniversityID = :university_id');
+    $stmt = $dbConn->prepare('SELECT * FROM rsos WHERE UniversityID = :university_id');
     $stmt->execute(['university_id' => $universityId]);
     $rsos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -78,6 +78,7 @@ function create_rso($universityId, $rsoName, $rsoDescription, $rsoImage, $member
     $universityINT = (int)$universityId;
     // Insert the RSO
     $stmt = $dbConn->prepare("INSERT INTO RSOs (Name, Description, UniversityID, ImageURL) VALUES (:name, :rsoDescription, :rsoImage, :universityID)");
+
     $stmt->bindParam(':name', $rsoName);
     $stmt->bindParam(':rsoDescription', $rsoDescription);
     $stmt->bindParam(':rsoImage', $rsoImage);

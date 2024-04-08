@@ -15,7 +15,7 @@ function create_event($universityId, $eventName, $category, $description, $time,
     if ($eventType != 'rso')
         $rsoID = null;
 
-    $stmt = $dbConn->prepare("INSERT INTO EVENTS (Name, Category, Description, Time, Date, LocationID, ContactPhone, ContactEmail, EventType, RSOID, UniversityID, APPROVED) VALUES (:eventName, :category, :description, :time, :date, :locationId, :contactPhone, :contactEmail, :eventType, :rsoID, :universityID, false)");
+    $stmt = $dbConn->prepare("INSERT INTO events (Name, Category, Description, Time, Date, LocationID, ContactPhone, ContactEmail, EventType, RSOID, UniversityID, Approved) VALUES (:eventName, :category, :description, :time, :date, :locationId, :contactPhone, :contactEmail, :eventType, :rsoID, :universityID, true)");
     $stmt->bindParam(':eventName', $eventName);
     $stmt->bindParam(':category', $category);
     $stmt->bindParam(':description', $description);
@@ -48,7 +48,7 @@ function get_event($universityId, $eventId)
     //Get connection
     $dbConn = db_get_connection();
 
-    $statement = 'SELECT * FROM Events WHERE EventID = :eventId AND UniversityID = :universityId';
+    $statement = 'SELECT * FROM events WHERE EventID = :eventId AND UniversityID = :universityId';
     $stmt = $dbConn->prepare($statement);
     $stmt->bindParam(':universityId', $universityId);
     $stmt->bindParam(':eventId', $eventId);
@@ -70,72 +70,72 @@ function approve_event($universityId, $eventId)
     return $stmt->fetch();
 }
 
-function get_event_rating($eventId) {
+// function get_event_rating($eventId) {
 
-    //Get connection
-    $dbConn = db_get_connection();
+//     //Get connection
+//     $dbConn = db_get_connection();
 
-    //Get the rating of the event
-    $statement = 'SELECT AVG(Stars) FROM Ratings WHERE EventID = :eventId';
+//     //Get the rating of the event
+//     $statement = 'SELECT AVG(Stars) FROM Ratings WHERE EventID = :eventId';
 
-    $stmt = $dbConn->prepare($statement);
-    $stmt->bindParam(':eventId', $eventId);
+//     $stmt = $dbConn->prepare($statement);
+//     $stmt->bindParam(':eventId', $eventId);
 
-    //Execute the statement
-    $stmt->execute();
+//     //Execute the statement
+//     $stmt->execute();
 
-    //Get the result
-    $rating = $stmt->fetchColumn();
+//     //Get the result
+//     $rating = $stmt->fetchColumn();
 
-    if ($rating == null)
-        $rating = 0;
+//     if ($rating == null)
+//         $rating = 0;
 
-    return $rating;
-}
+//     return $rating;
+// }
 
-function set_event_rating($eventId, $userId, $rating) {
+// function set_event_rating($eventId, $userId, $rating) {
 
-    //Get connection
-    $dbConn = db_get_connection();
+//     //Get connection
+//     $dbConn = db_get_connection();
 
-    try {
-        // Insert the RSO
-        $stmt = $dbConn->prepare('SELECT COUNT(*) FROM ratings WHERE UserId = :userId AND EventID = :eventId');
-        $stmt->bindParam(':userId', $userId);
-        $stmt->bindParam(':eventId', $eventId);
+//     try {
+//         // Insert the RSO
+//         $stmt = $dbConn->prepare('SELECT COUNT(*) FROM ratings WHERE UserId = :userId AND EventID = :eventId');
+//         $stmt->bindParam(':userId', $userId);
+//         $stmt->bindParam(':eventId', $eventId);
 
-        //Execute the statement
-        $stmt->execute();
+//         //Execute the statement
+//         $stmt->execute();
 
-        //Get the result
-        $count = $stmt->fetchColumn();
+//         //Get the result
+//         $count = $stmt->fetchColumn();
 
-        //If its not zero, it already exists!
-        if ($count == 0) {
-            $stmt = $dbConn->prepare('INSERT INTO ratings (UserID, EventID, Stars) VALUES (:userId, :eventId, :rating)');
-            $stmt->bindParam(':userId', $userId);
-            $stmt->bindParam(':eventId', $eventId);
-            $stmt->bindParam(':rating', $rating);
+//         //If its not zero, it already exists!
+//         if ($count == 0) {
+//             $stmt = $dbConn->prepare('INSERT INTO ratings (UserID, EventID, Stars) VALUES (:userId, :eventId, :rating)');
+//             $stmt->bindParam(':userId', $userId);
+//             $stmt->bindParam(':eventId', $eventId);
+//             $stmt->bindParam(':rating', $rating);
 
-            //Execute the statement
-            $stmt->execute();
+//             //Execute the statement
+//             $stmt->execute();
 
-        } else {
-            $stmt = $dbConn->prepare('UPDATE ratings SET Stars = :rating WHERE UserID = :userId AND EventID = :eventId');
-            $stmt->bindParam(':userId', $userId);
-            $stmt->bindParam(':eventId', $eventId);
-            $stmt->bindParam(':rating', $rating);
+//         } else {
+//             $stmt = $dbConn->prepare('UPDATE ratings SET Stars = :rating WHERE UserID = :userId AND EventID = :eventId');
+//             $stmt->bindParam(':userId', $userId);
+//             $stmt->bindParam(':eventId', $eventId);
+//             $stmt->bindParam(':rating', $rating);
 
-            //Execute the statement
-            $stmt->execute();
-        }
+//             //Execute the statement
+//             $stmt->execute();
+//         }
 
-        $stmt->execute();
+//         $stmt->execute();
 
-    } catch (PDOException $e) {
-        $error = "Error creating RSO: " . $e->getMessage();
-        echo $error;
-    }
-}
+//     } catch (PDOException $e) {
+//         $error = "Error creating RSO: " . $e->getMessage();
+//         echo $error;
+//     }
+// }
 
 ?>

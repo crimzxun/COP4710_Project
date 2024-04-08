@@ -33,7 +33,7 @@ if (!isset($_SESSION['user_id'])) {
                 <a class="nav-link float-end" href="events.php">Events</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link float-end" href="#">Create Events</a>
+                <a class="nav-link float-end" href="create_event.php">Create Events</a>
             </li>
             <a href="logout.php" class="btn d-grid gap-2 d-md-flex justify-content-md-end">Logout</a>
         </ul>

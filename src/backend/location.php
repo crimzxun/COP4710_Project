@@ -4,15 +4,15 @@
 
 include 'dbconn.php';
 
-function create_location($name, $latitude, $longitude) {
+function create_location($place, $latitude, $longitude) {
 
 	//Get connection
 	$dbConn = db_get_connection();
 
 	// Add members to the RSOMembers table
-	$stmt = $dbConn->prepare("INSERT INTO locations (Name, Latitude, Longitude) VALUES (:name, :latitude, :longitude)");
+	$stmt = $dbConn->prepare("INSERT INTO locations (Place, Latitude, Longitude) VALUES (:place, :latitude, :longitude)");
 
-	$stmt->bindParam(':name', $name);
+	$stmt->bindParam(':place', $place);
 	$stmt->bindParam(':latitude', $latitude);
 	$stmt->bindParam(':longitude', $longitude);
 	$stmt->execute();
