@@ -2,9 +2,10 @@
 // Start session
 session_start();
 
-// Check if user is logged in
-if (!isset($_SESSION['username'])) {
-    header("Location: ../index.php");
+//Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    echo("No username");
+    header("Location: index.php");
     exit;
 }
 ?>
@@ -21,7 +22,7 @@ if (!isset($_SESSION['username'])) {
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>Welcome <?php echo $_SESSION['username']; ?>!</h1>
+                <h1>Welcome <?php echo $_SESSION['user_fullname']; ?>!</h1>
                 <a href="logout.php" class="btn btn-danger">Logout</a>
             </div>
         </div>

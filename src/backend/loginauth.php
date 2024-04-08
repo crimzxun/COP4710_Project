@@ -1,44 +1,38 @@
-<!-- AUTHENTICATE LOGIN -->
 <?php
-include '../dashboard.php';
 function auth_login($email, $password) {
 
-    session_start();
-    //Get connection
-    $dbConn = db_get_connection();
+//Get connection
+$dbConn = db_get_connection();
 
-    //Create the statement.
-    $statement = 'SELECT UserID, Password, FullName, UniversityID FROM Users WHERE Email = :email';
+//Create the statement.
+$statement = 'SELECT UserID, Password, FullName, UniversityID FROM Users WHERE Email = :email';
 
-    $stmt = $dbConn->prepare($statement);
-    $stmt->bindParam(':email', $email);
+$stmt = $dbConn->prepare($statement);
+$stmt->bindParam(':email', $email);
 
-    //Execute the statement
-    $stmt->execute();
+//Execute the statement
+$stmt->execute();
 
-    //Get the result
-    $queryResult = $stmt->fetch();
+//Get the result
+$queryResult = $stmt->fetch();
 
-    echo $queryResult["Password"];
+//echo $queryResult["Password"];
 
-    //Check validity!
-    if ($queryResult["UserID"] == null || $queryResult["Password"] == null) {
-        header("Location: index.php?error=invalid_credentials");
-        return false;
+//Check validity!
+if ($queryResult["UserID"] == null || $queryResult["Password"] == null) {
+    return false;
 
-    }else if (!password_verify($password, $queryResult["Password"])) {
-        header("Location: index.php?error=invalid_credentials");
-        //return false;
-    } else {
-        $_SESSION["user_id"] = $queryResult["UserID"];
-        $_SESSION["user_universityid"] = $queryResult["UniversityID"];
-        $_SESSION["user_fullname"] = $queryResult["FullName"];
-        header("Location: dashboard.php");
-        exit;
-        
-    }
-
-    //return true;
+}else if (($password != $queryResult["Password"])) {
+    //echo $queryResult["Password"];
+    return false;
+} else {
+    //echo $queryResult["Password"];
+    $_SESSION["user_id"] = $queryResult["UserID"];
+    $_SESSION["user_universityid"] = $queryResult["UniversityID"];
+    $_SESSION["user_fullname"] = $queryResult["FullName"];
+    //echo $_SESSION["user_fullname"] ;
+    header("Location: ../src/dashboard.php");
 }
 
-?>
+return true;
+}
