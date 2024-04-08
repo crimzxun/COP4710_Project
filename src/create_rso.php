@@ -66,7 +66,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <div class="container">
         <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">Home Page</a>
+                    <a class="nav-link" aria-current="page" href="dashboard.php">Home Page</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="viewRSO.php">RSOs</a>
@@ -78,7 +78,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <a class="nav-link float-end" href="events.php">Events</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link float-end" href="#">Create Events</a>
+                    <a class="nav-link float-end" href="create_event.php">Create Events</a>
                 </li>
                 <a href="logout.php" class="btn d-grid gap-2 d-md-flex justify-content-md-end">Logout</a>
             </ul>

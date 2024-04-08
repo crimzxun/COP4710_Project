@@ -36,11 +36,7 @@ $university = get_university($uniID);
     <div class="container">
     <ul class="nav nav-tabs">
             <li class="nav-item">
-<<<<<<< Updated upstream
                 <a class="nav-link" aria-current="page" href="dashboard.php">Home Page</a>
-=======
-                <a class="nav-link" aria-current="page" href="#">Home Page</a>
->>>>>>> Stashed changes
             </li>
             <li class="nav-item">
                 <a class="nav-link float-end" href="viewRSO.php">RSOs</a>
@@ -49,11 +45,7 @@ $university = get_university($uniID);
                 <a class="nav-link float-end" href="create_rso.php">Create RSO</a>
             </li>
             <li class="nav-item">
-<<<<<<< Updated upstream
-                <a class="nav-link float-end active" href="#">Events</a>
-=======
                 <a class="nav-link active" href="events.php">Events</a>
->>>>>>> Stashed changes
             </li>
             <li class="nav-item">
                 <a class="nav-link float-end" href="create_event.php">Create Events</a>

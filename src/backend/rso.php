@@ -77,7 +77,7 @@ function create_rso($universityId, $rsoName, $rsoDescription, $rsoImage, $member
     $dbConn = db_get_connection();
     $universityINT = (int)$universityId;
     // Insert the RSO
-    $stmt = $dbConn->prepare("INSERT INTO RSOs (Name, Description, UniversityID, ImageURL) VALUES (:name, :rsoDescription, :rsoImage, :universityID)");
+    $stmt = $dbConn->prepare("INSERT INTO rsos (Name, Description, UniversityID, ImageURL) VALUES (:name, :rsoDescription, :rsoImage, :universityID)");
 
     $stmt->bindParam(':name', $rsoName);
     $stmt->bindParam(':rsoDescription', $rsoDescription);
