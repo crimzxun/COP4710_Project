@@ -61,14 +61,14 @@ function create_user($email, $password, $fullName, $universityId) {
     $dbConn = db_get_connection();
 
     //Hash the password
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    //$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
     //Create the statement.
     $statement = 'INSERT INTO Users (Email, Password, FullName, UniversityID) VALUES (:email, :password, :fullName, :universityID)';
 
     $stmt = $dbConn->prepare($statement);
     $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':password', $hashedPassword);
+    $stmt->bindParam(':password', $password);
     $stmt->bindParam(':fullName', $fullName);
     $stmt->bindParam(':universityID', $universityId);
     $userId = $dbConn->lastInsertId();

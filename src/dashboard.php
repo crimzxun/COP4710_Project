@@ -18,15 +18,26 @@ if (!isset($_SESSION['user_id'])) {
     <link href="frontend/css/style.css" rel="stylesheet">
 </head>
 <body>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Active</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link float-end" href="#">Link</a>
+        </li>
+        <a href="logout.php" class="btn btn-danger d-grid gap-2 d-md-flex justify-content-md-end">Logout</a>
+    </ul>
     <div class="container">
-        <div class="row">
+        <div class="row mt-3">
             <div class="col-md-12">
                 <h1>Welcome <?php echo $_SESSION['user_fullname']; ?>!</h1>
-                <a href="logout.php" class="btn btn-danger">Logout</a>
             </div>
         </div>
     </div>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="frontend/js/jquery.min.js"></script>
+    <script src="frontend/js/bootstrap.min.js"></script>
 </body>
 </html>

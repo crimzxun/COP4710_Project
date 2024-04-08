@@ -55,9 +55,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <form action="./login.php" method="post">
                     <input type="text" id="email" name="email" class="form-control my-2" placeholder="Email" required autofocus>
                     <input type="password" id="password" name="password" class="form-control my-2" placeholder="Password" required>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+                    <button class="btn btn-primary btn-block" type="submit">Login</button>
 
-                    <a href="signup.php">Signup</a>
+                    <a href="register.php">Signup</a>
                 </form>
             </div>
         </div>
