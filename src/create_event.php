@@ -96,13 +96,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         // }
     }
 
-    if(empty(trim($_POST["uniID"]))){
-        $error = "Please enter your university.";
-    } else{
-        //$uniID = trim($_POST["uniID"]);
-		$uniID= $_SESSION["user_universityid"];
-    }
-	echo"testing";
+    // if(empty(trim($_POST["uniID"]))){
+    //     $error = "Please enter your university.";
+    // } else{
+    //     //$uniID = trim($_POST["uniID"]);
+	// 	$uniID= $_SESSION["user_universityid"];
+    // }
+	$uniID= $_SESSION["user_universityid"];
+	
 	create_event($uniID, $name, $category, $desc, $time, $date, $latitude, $longitude, $address, $phone, $email, $eventtype, $rsoID);
 
     // Close connection $mysqli->close();
@@ -149,8 +150,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 							<input type="time" id="time" name="time" class="form-control my-2" placeholder="Time" required>
 							<input type="date" id="date" name="date" class="form-control my-2" placeholder="Date" required>
 							<input type="text" id="address" name="address" class="form-control my-2" placeholder="Address" required>
-							<input type="num" class="col-2" name="latitude" id="latitude" maxlength="50" required hidden>
-							<input type="num" class="col-2" name="longitude" id="longitude" maxlength="50" required hidden>
 							<li class="list-group-item">
 								<strong>Contact Info:</strong>
 								<input type="tel" id="phone" name="phone" class="form-control my-2" placeholder="Contact Phone" required>
@@ -172,12 +171,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 									<?php endforeach; ?>
 								</select>
 							</li>
-							<select class="form-control my-2" aria-label="Default select example" id="UniID" name="UniID">
-								<option selected>Open this select University</option>
-								<option value=1>1- University of Central Flordia</option>
-								<option value=2>2- Florida State University</option>
-								<option value=3>3- University of Central Florida</option>
-								<option value=3>4- University of South Florida</option>
+							<select class="form-control my-2" aria-label="Default select example" id="UniID" name="UniID" disabled>
+								<option value="1" <?php if ($_SESSION["user_universityid"] == 1) echo 'selected'; ?>>1- University of Central Florida</option>
+								<option value="2" <?php if ($_SESSION["user_universityid"] == 2) echo 'selected'; ?>>2- Florida State University</option>
+								<option value="3" <?php if ($$_SESSION["user_universityid"] == 3) echo 'selected'; ?>>3- University of Central Florida</option>
+								<option value="4" <?php if ($_SESSION["user_universityid"] == 4) echo 'selected'; ?>>4- University of South Florida</option>
 							</select>
 						</div>
 

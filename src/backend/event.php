@@ -8,7 +8,6 @@ function create_event($universityId, $eventName, $category, $description, $time,
 
     //Get connection
     $dbConn = db_get_connection();
-
     //Create the location
     $locationId = create_location($address, $latitude, $longitude);
 
