@@ -3,7 +3,7 @@
 <?php
 
 function db_get_connection() {
-    $dbConn = null;
+    //$dbConn = null;
 
     $host = '127.0.0.1';
     $db = 'universityeventsite';

@@ -2,8 +2,8 @@
 
 <?php
 
-include 'dbconn.php';
-include 'users.php';
+include_once 'dbconn.php';
+include_once 'user.php';
 
 function check_exists($universityId, $rsoName) {
 
@@ -71,7 +71,7 @@ function get_rsoid($universityId, $rsoName) {
 }
 
 
-function create_rso($universityId, $rsoName, $rsoDescription, $rsoImage, $adminId, $memberEmails) {
+function create_rso($universityId, $rsoName, $rsoDescription, $rsoImage, $memberEmails) {
 
     //Get connection
     $dbConn = db_get_connection();

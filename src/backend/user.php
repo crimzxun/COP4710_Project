@@ -2,7 +2,7 @@
 
 <?php
 
-include 'dbconn.php';
+include_once 'dbconn.php';
 
 function get_user_by_email($universityId, $userEmail) {
 
