@@ -33,37 +33,34 @@ $university = get_university($uniID);
     <link href="frontend/css/style.css" rel="stylesheet">
 </head>
 <body>
-	<div class="container">
-        <ul class="nav nav-tabs">
+    <div class="container">
+    <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home Page</a>
+                <a class="nav-link" aria-current="page" href="dashboard.php">Home Page</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="viewRSO.php">RSOs</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link float-end" href="#">Create RSO</a>
+                <a class="nav-link float-end" href="create_rso.php">Create RSO</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link float-end" href="events.php">Events</a>
+                <a class="nav-link float-end active" href="#">Events</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link float-end" href="#">Create Events</a>
             </li>
             <a href="logout.php" class="btn d-grid gap-2 d-md-flex justify-content-md-end">Logout</a>
         </ul>
-    </div>
-    <div class="container">
         <div class="row mt-3">
             <div class="col-md-12">
                 <h1>List of Events: </h1>
             </div>
         </div>
-    </div>
-	<div class="event-list">
+        <div class="event-list">
 		<div class="row">
             <?php foreach ($events as $event): ?>
-                <div class="col-md-4 mb-4">
+                <div class="col-lg-3 col-md-3 mb-3">
 					<div class="card" style="width: 18rem;">
 						<div class="card-body">
 							<h3 class="card-title"><?php echo $event['Name']; ?></h3>
@@ -71,14 +68,31 @@ $university = get_university($uniID);
 							<p class="card-text"><?php echo $event['Description']; ?></p>
 							<p class="card-text">Date: <?php echo $event['Date']; ?></p>
 							<p class="card-text">Time: <?php echo $event['Time']; ?></p>
-							<p class="card-text">Location: <?php echo $event['LocationID']; ?></p>
+							<p class="card-text">Location: <?php
+                            $location = get_location($event['LocationID']); 
+                            echo $location['Place']; 
+                            ?></p>
 							<p class="card-text">Phone: <?php echo $event['ContactPhone']; ?></p>
 							<p class="card-text">Email: <?php echo $event['ContactEmail']; ?></p>
 						</div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><?php 
+                            if ($event['EventType'] == 'rso') {
+                            echo "RSO Members Only"; 
+                            }
+                            if ($event['EventType'] == 'private') {
+                                echo "Private Event"; 
+                            }
+                            if ($event['EventType'] == 'public') {
+                                echo "Public Event"; 
+                            }
+                            ?></li>
+                        </ul>
 					</div>
                 </div>
             <?php endforeach; ?>
 		</div>
+    </div>
     </div>
     <script src="frontend/js/jquery.min.js"></script>
     <script src="frontend/js/bootstrap.min.js"></script>

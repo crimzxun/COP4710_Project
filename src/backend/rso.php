@@ -71,20 +71,22 @@ function get_rsoid($universityId, $rsoName) {
 }
 
 
-function create_rso($universityId, $rsoName, $rsoDescription, $rsoImage, $memberEmails) {
+function create_rso($universityId, $rsoName, $rsoDescription, $rsoImage, $memberEmails, $adminEmail) {
 
     //Get connection
     $dbConn = db_get_connection();
-
+    $universityINT = (int)$universityId;
     // Insert the RSO
-    $stmt = $dbConn->prepare("INSERT INTO RSOs (Name, AdminID, Description, ImageURL, UniversityID) VALUES (:name, :adminID, :rsoDescription,:rsoImage, :universityID)");
+    $stmt = $dbConn->prepare("INSERT INTO RSOs (Name, Description, UniversityID, ImageURL) VALUES (:name, :rsoDescription, :rsoImage, :universityID)");
     $stmt->bindParam(':name', $rsoName);
     $stmt->bindParam(':rsoDescription', $rsoDescription);
     $stmt->bindParam(':rsoImage', $rsoImage);
-    $stmt->bindParam(':adminID', $adminId);
-    $stmt->bindParam(':universityID', $universityId);
+    $stmt->bindParam(':universityID', $universityId, PDO::PARAM_INT);
     $stmt->execute();
     $rsoID = $dbConn->lastInsertId();
+
+    //CREATE ADMIN HERE:
+
 
     // Get UserIDs for member email addresses
     foreach ($memberEmails as $email) {
@@ -98,6 +100,7 @@ function create_rso($universityId, $rsoName, $rsoDescription, $rsoImage, $member
 
         //Add the user to the RSO
         add_member($rsoID, $user["UserID"]);
+        header("Location: dashboard.php");
     }
 }
 
@@ -192,7 +195,7 @@ function check_admin($universityId, $rsoId, $userId) {
     return $rso["AdminID"] == $userId;
 }
 
-function check_membership($universityId, $rsoId, $userId) {
+function check_membership($rsoId, $userId) {
 
     //Get connection
     $dbConn = db_get_connection();
