@@ -9,9 +9,8 @@
 // }
 
 // Include database connection file
-require_once "./backend/dbconn.php";
-
-require_once './backend/loginauth.php';
+require_once "backend/dbconn.php";
+require_once 'backend/loginauth.php';
 
 // Define variables and initialize with empty values
 $email = $password = "";

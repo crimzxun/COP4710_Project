@@ -1,4 +1,5 @@
 <?php
+session_start();
 function auth_login($email, $password) {
 
 //Get connection
@@ -16,7 +17,7 @@ $stmt->execute();
 //Get the result
 $queryResult = $stmt->fetch();
 
-//echo $queryResult["Password"];
+echo $queryResult["Password"];
 
 //Check validity!
 if ($queryResult["UserID"] == null || $queryResult["Password"] == null) {
@@ -26,13 +27,13 @@ if ($queryResult["UserID"] == null || $queryResult["Password"] == null) {
     //echo $queryResult["Password"];
     return false;
 } else {
-    //echo $queryResult["Password"];
+    echo $queryResult["Password"];
     $_SESSION["user_id"] = $queryResult["UserID"];
     $_SESSION["user_universityid"] = $queryResult["UniversityID"];
     $_SESSION["user_fullname"] = $queryResult["FullName"];
-    //echo $_SESSION["user_fullname"] ;
-    header("Location: ../src/dashboard.php");
+    echo $_SESSION["user_fullname"] ;
+    header("location: ./dashboard.php");
+    exit(); 
 }
 
-return true;
 }
