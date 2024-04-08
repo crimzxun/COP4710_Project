@@ -2,10 +2,9 @@
 
 <?php
 
-include 'dbconn.php';
 include 'location.php';
 
-function events_create_event($universityId, $eventName, $category, $description, $time, $date, $latitude, $longitude, $address, $contactPhone, $contactEmail, $eventType, $rsoID) {
+function create_event($universityId, $eventName, $category, $description, $time, $date, $latitude, $longitude, $address, $contactPhone, $contactEmail, $eventType, $rsoID) {
 
     //Get connection
     $dbConn = db_get_connection();

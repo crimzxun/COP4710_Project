@@ -2,8 +2,6 @@
 
 <?php
 
-include 'dbconn.php';
-
 function get_university($universityId) {
 
     //Get connection

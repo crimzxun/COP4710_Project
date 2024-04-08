@@ -30,7 +30,7 @@ if (!isset($_SESSION['user_id'])) {
                 <a class="nav-link float-end" href="#">Create RSO</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link float-end" href="#">Events</a>
+                <a class="nav-link float-end" href="events.php">Events</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link float-end" href="#">Create Events</a>
