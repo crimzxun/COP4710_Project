@@ -2,28 +2,28 @@
 
 require_once 'backend/event.php';
 require_once 'backend/rso.php';
+require_once 'backend/gmap.php';
 
 session_start();
 
 $userId = $_SESSION["user_id"];
 $universityId = $_SESSION["user_universityid"];
-									//Get the orgs the user is part of
+								
 $userRSOs = [];
-// Define variables and initialize with empty values
+
 $name = $category = $desc = $address = $phone = $email = $eventtype = "";
 $latitude = $longitude = $address = $uniID = $time = $date = $rsoID = null;
 
 $longitude = -81.2000599;
 $latitude = 28.6024274;
+
 // $name_err = $category_err = $desc_err = $address_err = $phone_err = $email_err = $rsoID_err = "";
 // $eventtype_err = $latitude_err = $longitude_err = $address_err = $uniID_err = $time_err = $date_err = "";
 $error = null;
 
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-    // Check if email and password are empty
-    // Validate email uniqueness
-    
+
     if(empty(trim($_POST["name"]))){
         $error = "Please enter event name.";
     } else{
@@ -60,9 +60,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     } else{
         $address = trim($_POST["address"]);
     }
-
-	//$latitude = ($_POST['latitude']);
-    //$longitude = ($_POST['longitude']);
     
     if(empty(trim($_POST["phone"]))){
         $error = "Please enter your phone number.";
@@ -95,6 +92,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         //     $error = "You are not an admin of this RSO.";
         // }
     }
+
+	$latitude = ($_POST['latitude']);
+    $longitude = ($_POST['longitude']);
 
     // if(empty(trim($_POST["uniID"]))){
     //     $error = "Please enter your university.";
@@ -131,7 +131,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <a class="nav-link float-end" href="create_rso.php">Create RSO</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link float-end" href="events.php">Events</a>
+                <a class="nav-link float-end" href="view_events.php">Events</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link active" href="create_event.php">Create Events</a>
@@ -142,6 +142,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 			<div class="row">
 				<div class="col-md-4 offset-md-4 form-login mt-4">
 					<h4>Create New Event:</h4>
+					<div id="googleMap" style="width:100%;height:400px;"></div>
 					<form action="./create_event.php" method="post">
 						<div class="pb-2">
 							<input type="text" id="name" name="name" class="form-control my-2" placeholder="Event Name" required autofocus>
@@ -150,6 +151,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 							<input type="time" id="time" name="time" class="form-control my-2" placeholder="Time" required>
 							<input type="date" id="date" name="date" class="form-control my-2" placeholder="Date" required>
 							<input type="text" id="address" name="address" class="form-control my-2" placeholder="Address" required>
+							<input type="number" id="latitude" name="latitude" class="form-control my-2" step="any" hidden>
+                            <input type="number" id="longitude" name="longitude" class="form-control my-2" step="any" hidden>
 							<li class="list-group-item">
 								<strong>Contact Info:</strong>
 								<input type="tel" id="phone" name="phone" class="form-control my-2" placeholder="Contact Phone" required>
@@ -187,59 +190,56 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		</div>
 	</div>
 	<script>
+		var map;
+		var geocoder;
+
 		function initMap() {
-			var map = new google.maps.Map(document.getElementById('map'), {
-				center: {lat: 0, lng: 0},
-				zoom: 3
-			});
-
-			// Create a marker object
-			var marker = new google.maps.Marker({
-				map: map,
-				draggable: true
-			});
-
-			// Hide the marker initially
-			marker.setVisible(false);
-
-			// Add click event listener to the map
-			map.addListener('click', function (event) {
-				document.getElementById('latitude').value = event.latLng.lat();
-				document.getElementById('longitude').value = event.latLng.lng();
-
-
-				getAddress(event.latLng.lat(), event.latLng.lng());
-
-				// Update the marker position and show it
-				marker.setPosition(event.latLng);
-				marker.setVisible(true);
-
-
-			});
-
-			// Update latitude and longitude fields when the marker is dragged
-			marker.addListener('dragend', function (event) {
-				document.getElementById('latitude').value = event.latLng.lat();
-				document.getElementById('longitude').value = event.latLng.lng();
-			});
-		}
-
-		function getAddress(lat, lon) {
-
-			const latlng = {
-				lat: lat,
-				lng: lon,
+			var mapProp= {
+				center:new google.maps.LatLng(27.994402,-81.760254),
+				zoom:7,
 			};
+			map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
 
-			var geocoder = new google.maps.Geocoder();
-
-			geocoder.geocode({location: latlng})
-				.then((response) => {
-					document.getElementById('address').value = response.results[0].formatted_address;
-					document.getElementById('address-fake').value = response.results[0].formatted_address;
-				})
-				.catch((e) => window.alert("Geocoder failed due to: " + e));
+			geocoder = new google.maps.Geocoder();
 		}
+		
+		function updateMap() {
+			var address = document.getElementById("address").value;
+
+			geocoder.geocode({ address: address }, function (results, status) {
+				if (status === "OK" && results[0]) {
+					var location = results[0].geometry.location;
+					var lat = location.lat();
+					var lng = location.lng();
+
+					map.setCenter(location);
+
+					if (marker) {
+						marker.setMap(null);
+					}
+
+					var marker = new google.maps.Marker({
+						position: location,
+						map: map,
+					});
+
+					// var coordinatesDiv = document.createElement("div");
+					// coordinatesDiv.innerHTML = "Latitude: " + lat + "<br>Longitude: " + lng;
+					// document.querySelector(".form-login").appendChild(coordinatesDiv);
+
+					document.getElementById("latitude").value = lat;
+					document.getElementById("longitude").value = lng;
+				} else {
+					alert("Geocode was not successful for the following reason: " + status);
+				}
+			});
+		}
+
+		document.addEventListener("DOMContentLoaded", function () {
+			document.getElementById("address").addEventListener("input", function () {
+				updateMap(); 
+			});
+		});
 	</script>
 	<script src="frontend/js/bootstrap.min.js"></script>
 </body>

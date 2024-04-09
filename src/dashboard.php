@@ -24,13 +24,13 @@ if (!isset($_SESSION['user_id'])) {
                 <a class="nav-link active" aria-current="page" href="#">Home Page</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="viewRSO.php">RSOs</a>
+                <a class="nav-link float-end" href="viewRSO.php">RSOs</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link float-end" href="create_rso.php">Create RSO</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link float-end" href="events.php">Events</a>
+                <a class="nav-link float-end" href="view_events.php">Events</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link float-end" href="create_event.php">Create Events</a>

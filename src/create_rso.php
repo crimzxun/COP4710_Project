@@ -75,7 +75,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <a class="nav-link float-end active" href="create_rso.php">Create RSO</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link float-end" href="events.php">Events</a>
+                    <a class="nav-link float-end" href="view_events.php">Events</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link float-end" href="create_event.php">Create Events</a>
