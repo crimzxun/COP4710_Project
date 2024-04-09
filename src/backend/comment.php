@@ -2,7 +2,7 @@
 
 <?php
 
-include 'dbconn.php';
+include_once 'dbconn.php';
 
 function add_comment($userId, $eventId, $content) {
 

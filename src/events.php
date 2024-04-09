@@ -11,6 +11,7 @@ if (!isset($_SESSION['user_id'])) {
 
 require_once "backend/event.php";
 require_once "backend/university.php";
+require_once "backend/rso.php";
 
 $user_id = $_SESSION["user_id"];
 $uniID = $_SESSION["user_universityid"];
@@ -59,37 +60,87 @@ $university = get_university($uniID);
         </div>
         <div class="event-list">
 		<div class="row">
-            <?php foreach ($events as $event): ?>
-                <div class="col-lg-3 col-md-3 mb-3">
-					<div class="card" style="width: 18rem;">
-						<div class="card-body">
-							<h3 class="card-title"><?php echo $event['Name']; ?></h3>
-							<h6 class="card-subtitle mb-2 text-muted"><?php echo $event['Category']; ?></p>
-							<p class="card-text"><?php echo $event['Description']; ?></p>
-							<p class="card-text">Date: <?php echo $event['Date']; ?></p>
-							<p class="card-text">Time: <?php echo $event['Time']; ?></p>
-							<p class="card-text">Location: <?php
-                            $location = get_location($event['LocationID']); 
-                            echo $location['Place']; 
-                            ?></p>
-							<p class="card-text">Phone: <?php echo $event['ContactPhone']; ?></p>
-							<p class="card-text">Email: <?php echo $event['ContactEmail']; ?></p>
-						</div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><?php 
-                            if ($event['EventType'] == 'rso') {
-                            echo "RSO Members Only"; 
-                            }
-                            if ($event['EventType'] == 'private') {
-                                echo "Private Event"; 
-                            }
-                            if ($event['EventType'] == 'public') {
-                                echo "Public Event"; 
-                            }
-                            ?></li>
-                        </ul>
-					</div>
-                </div>
+            <?php foreach ($events as $event): 
+
+                if($event['EventType'] == "public") {
+                    echo '<div class="col-lg-3 col-md-3 mb-3">
+                            <div class="card" style="width: 18rem;">
+                                <div class="card-body">
+                                    <h3 class="card-title">' . $event['Name'] . '</h3>
+                                    <h6 class="card-subtitle mb-2 text-muted">' . $event['Category'] . '</h6>
+                                    <p class="card-text">' . $event['Description'] . '</p>
+                                    <p class="card-text">Date: ' . $event['Date'] . '</p>
+                                    <p class="card-text">Time: ' . $event['Time'] . '</p>
+                                    <p class="card-text">Location: ';
+                                    $location = get_location($event['LocationID']);
+                                    echo $location['Place'];
+                                    echo '</p>
+                                    <p class="card-text">Phone: ' . $event['ContactPhone'] . '</p>
+                                    <p class="card-text">Email: ' . $event['ContactEmail'] . '</p>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">';
+                                    echo "Public Event";
+                                    echo '</li>
+                                    <a href="comments_page.php?event_id=' . $event['EventID'] . '" class="btn btn-primary">Add a comment</a>
+                                </ul>
+                            </div>
+                        </div>';
+                }
+                else if ($event['EventType'] == "private"){
+                    echo '<div class="col-lg-3 col-md-3 mb-3">
+                            <div class="card" style="width: 18rem;">
+                                <div class="card-body">
+                                    <h3 class="card-title">' . $event['Name'] . '</h3>
+                                    <h6 class="card-subtitle mb-2 text-muted">' . $event['Category'] . '</h6>
+                                    <p class="card-text">' . $event['Description'] . '</p>
+                                    <p class="card-text">Date: ' . $event['Date'] . '</p>
+                                    <p class="card-text">Time: ' . $event['Time'] . '</p>
+                                    <p class="card-text">Location: ';
+                                    $location = get_location($event['LocationID']);
+                                    echo $location['Place'];
+                                    echo '</p>
+                                    <p class="card-text">Phone: ' . $event['ContactPhone'] . '</p>
+                                    <p class="card-text">Email: ' . $event['ContactEmail'] . '</p>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">';
+                                    echo "Public Event";
+                                    echo '</li>
+                                    <a href="comments_page.php?event_id=' . $event['EventID'] . '" class="btn btn-primary">Add a comment</a>
+                                </ul>
+                            </div>
+                        </div>';
+                }
+                else if ($event['EventType'] == 'rso'){
+                    if(check_membership($event['RSOID'], $_SESSION['user_id']))
+                    {
+                        echo '<div class="col-lg-3 col-md-3 mb-3">
+                            <div class="card" style="width: 18rem;">
+                                <div class="card-body">
+                                    <h3 class="card-title">' . $event['Name'] . '</h3>
+                                    <h6 class="card-subtitle mb-2 text-muted">' . $event['Category'] . '</h6>
+                                    <p class="card-text">' . $event['Description'] . '</p>
+                                    <p class="card-text">Date: ' . $event['Date'] . '</p>
+                                    <p class="card-text">Time: ' . $event['Time'] . '</p>
+                                    <p class="card-text">Location: ';
+                                    $location = get_location($event['LocationID']);
+                                    echo $location['Place'];
+                                    echo '</p>
+                                    <p class="card-text">Phone: ' . $event['ContactPhone'] . '</p>
+                                    <p class="card-text">Email: ' . $event['ContactEmail'] . '</p>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">';
+                                    echo "RSO Members Only";
+                                    echo ' </li>
+                                    <a href="comments_page.php?event_id=' . $event['EventID'] . '" class="btn btn-primary">Add a comment</a>
+                                </ul>
+                            </div>
+                        </div>';
+                    }
+                }
+                ?>
             <?php endforeach; ?>
 		</div>
     </div>
