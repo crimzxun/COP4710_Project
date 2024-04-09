@@ -6,12 +6,11 @@ require_once 'backend/comment.php'; // Include database connection
 session_start();
 // Define variables and initialize with empty values
 $name = $description = $imageURL = $email1  = $email2 = $email3 = $adminemail = "";
-$memberEmails = [];
-$uniID = $_SESSION["user_universityid"];
 $name_err = $description_err = $imageURL_err = $uniID_err = $email_err = "";
 
+$uniID = $_SESSION["user_universityid"];
+$userID = $_SESSION["user_id"];
 //$event = events_get_event($_SESSION["user_universityid"], $_GET["id"]);
-// Processing form data when form is submitted
 
 
 //Get the comments
@@ -47,7 +46,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <a class="nav-link" aria-current="page" href="dashboard.php">Home Page</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="viewRSO.php">RSOs</a>
+                    <a class="nav-link float-end" href="viewRSO.php">RSOs</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link float-end" href="create_rso.php">Create RSO</a>

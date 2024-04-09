@@ -195,8 +195,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 		function initMap() {
 			var mapProp= {
-				center:new google.maps.LatLng(27.994402,-81.760254),
-				zoom:7,
+				center: new google.maps.LatLng(27.994402,-81.760254),
+				zoom: 7,
 			};
 			map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
 
@@ -212,6 +212,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 					var lat = location.lat();
 					var lng = location.lng();
 
+					map.setZoom(15);
 					map.setCenter(location);
 
 					if (marker) {
@@ -236,7 +237,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		}
 
 		document.addEventListener("DOMContentLoaded", function () {
-			document.getElementById("address").addEventListener("input", function () {
+			document.getElementById("address").addEventListener("blur", function () {
 				updateMap(); 
 			});
 		});

@@ -81,17 +81,18 @@ $university = get_university($uniID);
                             </div>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item"><?php 
-                                if ($event['EventType'] == 'rso') {
-                                    echo "RSO Members Only"; 
-                                }
-                                if ($event['EventType'] == 'private') {
-                                    echo "Private Event"; 
-                                }
-                                if ($event['EventType'] == 'public') {
-                                    echo "Public Event"; 
-                                }
+                                    if ($event['EventType'] == 'rso') {
+                                        echo "RSO Members Only"; 
+                                    }
+                                    if ($event['EventType'] == 'private') {
+                                        echo "Private Event"; 
+                                    }
+                                    if ($event['EventType'] == 'public') {
+                                        echo "Public Event"; 
+                                    }
                                 ?></li>
                             </ul>
+                            <a href="comments_page.php" class="btn btn-primary">Comments</a>
                         </div>
                     </div>
 
