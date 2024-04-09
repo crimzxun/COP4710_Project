@@ -35,7 +35,7 @@ $university = get_university($uniID);
 </head>
 <body>
     <div class="container">
-    <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="dashboard.php">Home Page</a>
             </li>
@@ -59,54 +59,60 @@ $university = get_university($uniID);
             </div>
         </div>
         <div class="event-list">
-		<div class="row">
-            <?php foreach ($events as $event): ?>
-                <div class="col-lg-3 col-md-3 mb-3">
-					<div class="card" style="width: 18rem;">
-                        <div class="card h-25">
-                            <div id="googleMap" style="width: auto; height: 15rem;"></div>
+            <div class="row">
+                <?php foreach ($events as $event): ?>
+                    <div class="col-lg-3 col-md-3 mb-3">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card h-25">
+                                <div id="googleMap_<?php echo $event['LocationID']; ?>" style="width: auto; height: 15rem;"></div>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title"><?php echo $event['Name']; ?></h3>
+                                <h6 class="card-subtitle mb-2 text-muted"><?php echo $event['Category']; ?></p>
+                                <p class="card-text"><?php echo $event['Description']; ?></p>
+                                <p class="card-text">Date: <?php echo $event['Date']; ?></p>
+                                <p class="card-text">Time: <?php echo $event['Time']; ?></p>
+                                <p class="card-text">Location: <?php
+                                    $location = get_location($event['LocationID']); 
+                                    echo $location['Place']; 
+                                ?></p>
+                                <p class="card-text">Phone: <?php echo $event['ContactPhone']; ?></p>
+                                <p class="card-text">Email: <?php echo $event['ContactEmail']; ?></p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><?php 
+                                if ($event['EventType'] == 'rso') {
+                                    echo "RSO Members Only"; 
+                                }
+                                if ($event['EventType'] == 'private') {
+                                    echo "Private Event"; 
+                                }
+                                if ($event['EventType'] == 'public') {
+                                    echo "Public Event"; 
+                                }
+                                ?></li>
+                            </ul>
                         </div>
-						<div class="card-body">
-							<h3 class="card-title"><?php echo $event['Name']; ?></h3>
-							<h6 class="card-subtitle mb-2 text-muted"><?php echo $event['Category']; ?></p>
-							<p class="card-text"><?php echo $event['Description']; ?></p>
-							<p class="card-text">Date: <?php echo $event['Date']; ?></p>
-							<p class="card-text">Time: <?php echo $event['Time']; ?></p>
-							<p class="card-text">Location: <?php
-                                $location = get_location($event['LocationID']); 
-                                echo $location['Place']; 
-                            ?></p>
-							<p class="card-text">Phone: <?php echo $event['ContactPhone']; ?></p>
-							<p class="card-text">Email: <?php echo $event['ContactEmail']; ?></p>
-						</div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><?php 
-                            if ($event['EventType'] == 'rso') {
-                                echo "RSO Members Only"; 
-                            }
-                            if ($event['EventType'] == 'private') {
-                                echo "Private Event"; 
-                            }
-                            if ($event['EventType'] == 'public') {
-                                echo "Public Event"; 
-                            }
-                            ?></li>
-                        </ul>
-					</div>
-                </div>
-            <?php endforeach; ?>
-		</div>
+                    </div>
+
+                    <script>
+                        function initMap_<?php echo $event['LocationID']; ?>() {
+                            var location = {lat: <?php echo $location['Latitude']; ?>, lng: <?php echo $location['Longitude']; ?>};
+                            var map = new google.maps.Map(document.getElementById('googleMap_<?php echo $event['LocationID']; ?>'), {
+                                zoom: 15,
+                                center: location
+                            });
+                            var marker = new google.maps.Marker({
+                                position: location,
+                                map: map
+                            });
+                        }
+                        initMap_<?php echo $event['LocationID']; ?>();
+                    </script>
+                <?php endforeach; ?>
+            </div>
+        </div>
     </div>
-    </div>
-    <script>
-		function initMap() {
-			var mapProp= {
-				center:new google.maps.LatLng(27.994402,-81.760254),
-				zoom:5,
-			};
-			var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-		}
-    </script>
     <script src="frontend/js/jquery.min.js"></script>
     <script src="frontend/js/bootstrap.min.js"></script>
 </body>
