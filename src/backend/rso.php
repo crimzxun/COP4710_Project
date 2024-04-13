@@ -178,7 +178,7 @@ function get_members($rsoId) {
 function check_admin($rsoId, $userId) {
     $dbConn = db_get_connection();
 
-    $statement = 'SELECT * FROM `admin` WHERE RSOID = :rsoId';
+    $statement = 'SELECT * FROM admin WHERE RSOID = :rsoId';
 
     $stmt = $dbConn->prepare($statement);
     $stmt->bindParam(':rsoId', $rsoId);
@@ -218,6 +218,7 @@ function check_membership($rsoId, $userId) {
 function add_member($rsoId, $newMemberId) {
     // Get connection
     $dbConn = db_get_connection();
+    //echo $rsoId;
 
     // Add members to the RSOMembers table
     $stmt = $dbConn->prepare("INSERT INTO RSOMembers (UserID, RSOID) VALUES (:userID, :rsoID)");

@@ -10,20 +10,23 @@ if (!isset($_SESSION['user_id'])) {
 
 $rsoId = $_GET['rsoId'] ?? null;
 
-if (!$rsoId || !check_admin($rsoId, $_SESSION['user_id'])) {
-    header("Location: dashboard.php"); // Redirect if not an admin or RSO ID is missing
-    exit;
-}
+// if (!check_admin($rsoId, $_SESSION['user_id'])) {
+//     echo $rsoId; check_admin($rsoId, $_SESSION['user_id']);
+
+//     header("Location: dashboard.php"); // Redirect if not an admin or RSO ID is missing
+//     exit;
+// }
 
 $members = get_members($rsoId);
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["newMemberEmail"])) {
     $newMemberEmail = $_POST["newMemberEmail"];
-    $newMemberId =get_user_by_email($_SESSION["user_universityid"], $newMemberEmail); // Assuming you have a function to get user ID by email
-    if ($newMemberId) {
+    $newMember = get_user_by_email($_SESSION["user_universityid"], $newMemberEmail);
+    $newMemberId = $newMember['UserID'];
+    if (!check_membership($_GET['rsoId'],  $newMemberId)) {
         add_member($rsoId, $newMemberId);
         // Redirect to prevent form resubmission
-        header("Location: ".$_SERVER['PHP_SELF']."?rsoId=".$rsoId);
+        header("Location: viewRSO.php"); 
         exit;
     } else {
         // Handle case when user with provided email doesn't exist
@@ -36,7 +39,7 @@ if (isset($_GET["removeUserId"])) {
     $removeUserId = $_GET["removeUserId"];
     remove_member($rsoId, $removeUserId);
     // Redirect to prevent form resubmission
-    header("Location: ".$_SERVER['PHP_SELF']."?rsoId=".$rsoId);
+    header("Location: viewRSO.php");
     exit;
 }
 
@@ -76,12 +79,13 @@ if (isset($_GET["removeUserId"])) {
         <ul>
             <?php foreach ($members as $member): ?>
                 <li><?php $memberemail =  get_user_by_id($_SESSION["user_universityid"], $member['UserID']); echo $memberemail['Email']; // Display user details ?>
-                    <a href="./editRSO.php?userId=<?php echo $member['UserID']; ?>&rsoId=<?php echo $rsoId; ?>">Remove</a>
+                <a href="./editRSO.php?removeUserId=<?php echo $member['UserID']; ?>&rsoId=<?php echo $rsoId; ?>">Remove</a>
                 </li>
+                <!-- <?php echo $rsoId ?> -->
             <?php endforeach; ?>
+            
         </ul>
-        <form method="POST" action="./editRSO.php">
-            <input type="hidden" name="rsoId" value="<?php echo $rsoId; ?>">
+        <form method="POST" action="./editRSO.php?removeUserId=<?php echo $member['UserID']; ?>&rsoId=<?php echo $rsoId; ?>">
             <input type="email" name="newMemberEmail" placeholder="Enter member email">
             <button type="submit">Add Member</button>
         </form>
