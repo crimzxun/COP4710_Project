@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 include_once 'backend/rso.php';
@@ -20,11 +19,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     add_member($rsoId, $newMemberId);
     // Redirect to a success page or display a success message
     header("Location: events.php");
-} else {
-    // Redirect to an error page or display an error message
-    //header("Location: dashboard.php");
 }
 
+// Fetch RSOs from the database
+$rsoList = get_all_rsos($_SESSION["user_universityid"]);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,54 +61,37 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="row mt-3">
             <div class="row">
                 <?php
-                require_once 'backend/rso.php';
-                // Call get_all_rso function to fetch RSOs
-                $rsoList = get_all_rsos($_SESSION["user_universityid"]);
-
-
                 // Check if RSOs exist
                 if ($rsoList) {
                     // Display RSOs
                     foreach ($rsoList as $rso) {
                         $rsoMemberCount = count(get_members($rso["RSOID"]));
-                        if(check_membership($rso["RSOID"], $_SESSION['user_id'] ))
-                        {
-                            echo "<div class=\"col-lg-3 col-md-3 mb-3\">
-                                <div class=\"card\" style=\"width: 18rem;\">
-                                <div class='card-body'>
-                                    <h5 class='card-title'>{$rso['Name']}</h5>
-                                    <p class='card-text'>{$rso['Description']}</p>
-                                </div>
-                                <ul class='list-group list-group-flush'>
-                                    <li class='list-group-item'>Members: {$rsoMemberCount}</li>
-                                </ul>
-                                <div class='card-body'>
-                                    <button class=\"btn btn-link p-0\" disabled>Already a Member!</button>
-                                </div>
-                                </div>
-                            </div>";
+                        // $isAdmin = is_rso_admin($_SESSION["user_universityid"], $rso["RSOID"], $_SESSION['user_id']);
+                        echo "<div class=\"col-lg-3 col-md-3 mb-3\">
+                            <div class=\"card\" style=\"width: 18rem;\">
+                            <div class='card-body'>
+                                <h5 class='card-title'>{$rso['Name']}</h5>
+                                <p class='card-text'>{$rso['Description']}</p>
+                            </div>
+                            <ul class='list-group list-group-flush'>
+                                <li class='list-group-item'>Members: {$rsoMemberCount}</li>
+                            </ul>
+                            <div class='card-body'>";
+                        if (check_admin($rso["RSOID"], $_SESSION['user_id'])) {
+                            echo "<a href=\"editRSO.php?rsoId={$rso['RSOID']}\" class=\"btn btn-primary\">Edit RSO</a>";
                         }
-                        else{
-                            echo "<div class=\"col-lg-3 col-md-3 mb-3\">
-                                <div class=\"card\" style=\"width: 18rem;\">
-                                <div class='card-body'>
-                                    <h5 class='card-title'>{$rso['Name']}</h5>
-                                    <p class='card-text'>{$rso['Description']}</p>
-                                </div>
-                                <ul class='list-group list-group-flush'>
-                                    <li class='list-group-item'>Members: {$rsoMemberCount}</li>
-                                </ul>
-                                <div class='card-body'>
-                                <form action=\"./viewRSO.php\" method=\"post\">
-                                    <input type=\"hidden\" name=\"rsoId\" value=\"{$rso["RSOID"]}\">
-                                    <input type=\"hidden\" name=\"newMemberId\" value=\"{$_SESSION['user_id']}\">
-                                    <button type=\"submit\" id=\"submit\" name=\"submit\" class=\"btn btn-link p-0\">Join RSO</button>
-                                </form>
-                                </div>
-                                </div>
-                            </div>";
-                        }        
-                        
+                        if(check_membership($rso["RSOID"], $_SESSION['user_id'])) {
+                            echo "<button class=\"btn btn-link p-0\" disabled>Already a Member!</button>";
+                        } else {
+                            echo "<form action=\"./viewRSO.php\" method=\"post\">
+                                <input type=\"hidden\" name=\"rsoId\" value=\"{$rso["RSOID"]}\">
+                                <input type=\"hidden\" name=\"newMemberId\" value=\"{$_SESSION['user_id']}\">
+                                <button type=\"submit\" id=\"submit\" name=\"submit\" class=\"btn btn-link p-0\">Join RSO</button>
+                            </form>";
+                        }
+                        echo "</div>
+                            </div>
+                        </div>";
                     }
                 } else {
                     echo "No RSOs found.";
