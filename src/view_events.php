@@ -13,23 +13,31 @@ require_once "backend/event.php";
 require_once "backend/university.php";
 require_once "backend/gmap.php";
 
-$user_id = $_SESSION["user_id"];
+$user_id = $_SESSION["user_id"];                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 $uniID = $_SESSION["user_universityid"];
 
 $events = get_all_events($uniID);
 $university = get_university($uniID);
 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['event_id'])) {
+    // store eventID in the session variable
+    $_SESSION['event_id'] = $_POST['event_id'];
+
+    // redirect to comments_page.php
+    header("Location: comments_page.php");
+    exit; // stop further execution
+}
+
 // Close database connection
 // $mysqli->close();
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Display Events</title>
     <link href="frontend/css/bootstrap.min.css" rel="stylesheet">
     <link href="frontend/css/style.css" rel="stylesheet">
 </head>
@@ -92,7 +100,7 @@ $university = get_university($uniID);
                                     }
                                 ?></li>
                             </ul>
-                            <a href="comments_page.php" class="btn btn-primary">Comments</a>
+                            <a href="#" class="btn btn-primary comments-button" data-event-id="<?php echo $event['EventID']; ?>">Comments</a>
                         </div>
                     </div>
 
@@ -114,6 +122,30 @@ $university = get_university($uniID);
             </div>
         </div>
     </div>
+    <script>
+        document.querySelectorAll('.comments-button').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); // prevent default link behavior
+                var eventId = this.getAttribute('data-event-id');
+
+                // create a form element to submit the eventID
+                var form = document.createElement('form');
+                form.method = 'post';
+                form.action = '<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>'; // Form action to the same page
+
+                // create a hidden input field to store the eventID
+                var eventIdInput = document.createElement('input');
+                eventIdInput.type = 'hidden';
+                eventIdInput.name = 'event_id';
+                eventIdInput.value = eventId;
+                
+                // append eventIdInput to the form then the form to the document body and submit it
+                form.appendChild(eventIdInput);
+                document.body.appendChild(form);
+                form.submit();
+            });
+        });
+    </script>
     <script src="frontend/js/jquery.min.js"></script>
     <script src="frontend/js/bootstrap.min.js"></script>
 </body>

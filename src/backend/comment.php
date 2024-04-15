@@ -4,15 +4,16 @@
 
 include_once 'dbconn.php';
 
-function add_comment($userId, $eventId, $content) {
+function add_comment($userId, $eventId, $context, $stars) {
 
     //Get connection
     $dbConn = db_get_connection();
 
-    $stmt = $dbConn->prepare('INSERT INTO comments (UserID, EventID, Content) VALUES (:userId, :eventId, :content)');
+    $stmt = $dbConn->prepare('INSERT INTO comments (UserID, EventID, Context, Rating) VALUES (:userId, :eventId, :context, :rating)');
     $stmt->bindParam(':userId', $userId);
     $stmt->bindParam(':eventId', $eventId);
-    $stmt->bindParam(':content', $content);
+    $stmt->bindParam(':context', $context);
+    $stmt->bindParam(':rating', $stars);
 
     //Execute the statement
     $stmt->execute();
@@ -58,14 +59,15 @@ function delete_comment($commentID) {
     return $stmt->fetch();
 }
 
-function edit_comment($commentID, $newContent) {
+function edit_comment($commentID, $newContext) {
 
     //Get connection
     $dbConn = db_get_connection();
 
-    $stmt = $dbConn->prepare('UPDATE comments SET Content = :newContent WHERE CommentID = :commentID');
+    $stmt = $dbConn->prepare('UPDATE comments SET Context = :newContext WHERE CommentID = :commentID');
     $stmt->bindParam(':commentID', $commentID);
-    $stmt->bindParam(':newContent', $newContent);
+    $stmt->bindParam(':newContext', $newContext);
+    // $stmt->bindParam(':newRating', $newRating);
 
     //Execute the statement
     $stmt->execute();

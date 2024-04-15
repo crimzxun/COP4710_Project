@@ -7,7 +7,23 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: index.php");
     exit;
 }
+
+$uniID = $_SESSION["user_universityid"];
+if ($uniID == 1) {
+    $uniImage = './img/ucf.png';
+}
+else if ($uniID == 2) {
+    $uniImage = './img/fsu.jpg';
+}
+else if ($uniID == 3) {
+    $uniImage = './img/uf.png';
+}
+else if ($uniID == 4) {
+    $uniImage = './img/usf.png';
+}
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,8 +33,16 @@ if (!isset($_SESSION['user_id'])) {
     <link href="frontend/css/bootstrap.min.css" rel="stylesheet">
     <link href="frontend/css/style.css" rel="stylesheet">
 </head>
+<style>
+    #logoImage {
+        margin: 10px 0; /* Add margin above and below*/
+        margin-right: 50px; /* Add margin to separate logo from text */
+        vertical-align: middle;
+    }
+</style>
 <body>
     <div class="container">
+        <img src="<?php echo $uniImage; ?>" alt="University Logo" id="logoImage" width="225" height="75">
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="#">Home Page</a>

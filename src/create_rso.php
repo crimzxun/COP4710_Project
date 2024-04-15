@@ -65,25 +65,25 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <body>
     <div class="container">
         <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="dashboard.php">Home Page</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="viewRSO.php">RSOs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link float-end active" href="create_rso.php">Create RSO</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link float-end" href="view_events.php">Events</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link float-end" href="create_event.php">Create Events</a>
-                </li>
-                <a href="logout.php" class="btn d-grid gap-2 d-md-flex justify-content-md-end">Logout</a>
-            </ul>
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="dashboard.php">Home Page</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="viewRSO.php">RSOs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link float-end active" href="create_rso.php">Create RSO</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link float-end" href="view_events.php">Events</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link float-end" href="create_event.php">Create Events</a>
+            </li>
+            <a href="logout.php" class="btn d-grid gap-2 d-md-flex justify-content-md-end">Logout</a>
+        </ul>
         <div class="row">
-        <div class="col-md-4 offset-md-4 form-login mt-4">
+            <div class="col-md-4 offset-md-4 form-login mt-4">
                 <h4>Create RSO</h4>
                 <form action="./create_rso.php" method="post">
                 <div class="pb-2">
@@ -99,9 +99,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
                     <button class="btn btn-primary btn-block" type="submit">Create RSO</button>
                     <a href="dashboard.php">Go back to Dashboard</a>
-                    </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
     <script src="frontend/js/bootstrap.min.js"></script>
