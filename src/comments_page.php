@@ -155,15 +155,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div class="comment-section">
                     <?php foreach ($comments as $eventComment) : ?>
                         <?php
-                        $commentUser = get_user_by_id($uniID, $eventComment["UserID"]);
-
+                        $commentUser = get_user_by_id($_SESSION["user_universityid"], $eventComment["UserID"]);
+                        //echo $commentUser['Email'];
                         // check if comment belongs to the user that is logged in
-                        $isUserComment = ($eventComment["UserID"] === $userID);
                         ?>
                         <div class="card">
                             <h5 class="card-header">
-                                <strong><?= $commentUser["FullName"] ?></strong>
-                                <?php if ($isUserComment) : ?>
+                                <strong><?php echo $commentUser['FullName'] ?></strong>
+                                <?php if ($eventComment["UserID"] === $userID) : ?>
                                     <div class="float-end">
                                         <button type="button" name="editComment" class="btn btn-sm btn-primary edit-comment">Edit</button>
                                         <form action="./comments_page.php" method="post" class="d-inline">

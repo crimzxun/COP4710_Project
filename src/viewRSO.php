@@ -18,7 +18,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     // Call the add_member function
     add_member($rsoId, $newMemberId);
     // Redirect to a success page or display a success message
-    header("Location: events.php");
+    header("Location: view_events.php");
 }
 
 // Fetch RSOs from the database

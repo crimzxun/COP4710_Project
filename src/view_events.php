@@ -11,6 +11,7 @@ if (!isset($_SESSION['user_id'])) {
 
 require_once "backend/event.php";
 require_once "backend/university.php";
+require_once "backend/rso.php";
 require_once "backend/gmap.php";
 
 $user_id = $_SESSION["user_id"];                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
@@ -69,40 +70,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['event_id'])) {
         <div class="event-list">
             <div class="row">
                 <?php foreach ($events as $event): ?>
-                    <div class="col-lg-3 col-md-3 mb-3">
-                        <div class="card" style="width: 18rem;">
-                            <div class="card h-25">
-                                <div id="googleMap_<?php echo $event['LocationID']; ?>" style="width: auto; height: 15rem;"></div>
+                        <?php if ((($event['EventType'] == 'rso') && check_membership($event['RSOID'], $user_id)) || ($event['EventType'] == 'public') || ((($event['EventType'] == 'private') && ($event['UniversityID']== $uniID))))
+                        {
+                            echo '
+                            <div class="col-lg-3 col-md-3 mb-3">
+                                <div class="card" style="width: 18rem;">
+                                <div class="card h-25">
+                                    <div id="googleMap_' . $event['LocationID'] . '" style="width: auto; height: 15rem;"></div>
+                                </div>
+                                <div class="card-body">
+                                    <h3 class="card-title">' . $event['Name'] . '</h3>
+                                    <h6 class="card-subtitle mb-2 text-muted">' . $event['Category'] . '</p>
+                                    <p class="card-text">' . $event['Description'] . '</p>
+                                    <p class="card-text">Date: ' . $event['Date'] . '</p>
+                                    <p class="card-text">Time: ' . $event['Time'] . '</p>
+                                    <p class="card-text">Location: ';
+                                        $location = get_location($event['LocationID']); 
+                                        echo $location['Place'];
+                                    echo '</p>
+                                    <p class="card-text">Phone: ' . $event['ContactPhone'] . '</p>
+                                    <p class="card-text">Email: ' . $event['ContactEmail'] . '</p>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">';
+                                        if ($event['EventType'] == 'rso') {
+                                            echo "RSO Members Only"; 
+                                        }
+                                        if ($event['EventType'] == 'private') {
+                                            echo "Private Event"; 
+                                        }
+                                        if ($event['EventType'] == 'public') {
+                                            echo "Public Event"; 
+                                        }
+                                    echo '</li>
+                                </ul>
+                                <a href="#" class="btn btn-primary comments-button" data-event-id="' . $event['EventID'] . '">Comments</a>
                             </div>
-                            <div class="card-body">
-                                <h3 class="card-title"><?php echo $event['Name']; ?></h3>
-                                <h6 class="card-subtitle mb-2 text-muted"><?php echo $event['Category']; ?></p>
-                                <p class="card-text"><?php echo $event['Description']; ?></p>
-                                <p class="card-text">Date: <?php echo $event['Date']; ?></p>
-                                <p class="card-text">Time: <?php echo $event['Time']; ?></p>
-                                <p class="card-text">Location: <?php
-                                    $location = get_location($event['LocationID']); 
-                                    echo $location['Place']; 
-                                ?></p>
-                                <p class="card-text">Phone: <?php echo $event['ContactPhone']; ?></p>
-                                <p class="card-text">Email: <?php echo $event['ContactEmail']; ?></p>
-                            </div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item"><?php 
-                                    if ($event['EventType'] == 'rso') {
-                                        echo "RSO Members Only"; 
-                                    }
-                                    if ($event['EventType'] == 'private') {
-                                        echo "Private Event"; 
-                                    }
-                                    if ($event['EventType'] == 'public') {
-                                        echo "Public Event"; 
-                                    }
-                                ?></li>
-                            </ul>
-                            <a href="#" class="btn btn-primary comments-button" data-event-id="<?php echo $event['EventID']; ?>">Comments</a>
                         </div>
-                    </div>
+                        ';
+                        }
+                        ?>
 
                     <script>
                         function initMap_<?php echo $event['LocationID']; ?>() {

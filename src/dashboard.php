@@ -13,7 +13,7 @@ if ($uniID == 1) {
     $uniImage = './img/ucf.png';
 }
 else if ($uniID == 2) {
-    $uniImage = './img/fsu.jpg';
+    $uniImage = './img/fsu.png';
 }
 else if ($uniID == 3) {
     $uniImage = './img/uf.png';
@@ -42,7 +42,7 @@ else if ($uniID == 4) {
 </style>
 <body>
     <div class="container">
-        <img src="<?php echo $uniImage; ?>" alt="University Logo" id="logoImage" width="225" height="75">
+        <img src="<?php echo $uniImage; ?>" alt="University Logo" id="logoImage" width="250" height="100">
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="#">Home Page</a>

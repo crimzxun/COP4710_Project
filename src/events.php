@@ -61,7 +61,6 @@ $university = get_university($uniID);
         <div class="event-list">
 		<div class="row">
             <?php foreach ($events as $event): 
-
                 if($event['EventType'] == "public") {
                     echo '<div class="col-lg-3 col-md-3 mb-3">
                             <div class="card" style="width: 18rem;">
